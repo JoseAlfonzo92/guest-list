@@ -1,0 +1,117 @@
+:root {
+    --primary-color: hsl(340, 82%, 52%);
+    --secondary-color: hsl(48, 100%, 67%);
+    --accent-color: hsl(200, 100%, 50%);
+    --background-color: hsl(0, 0%, 98%);
+    --text-color: hsl(0, 0%, 20%);
+    --border-color: hsl(0, 0%, 80%);
+    --highlight-color: hsl(340, 82%, 72%);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --white: hsl(0, 0%, 100%);
+    --black: hsl(0, 0%, 0%);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Fredoka', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    max-width: 900px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+#guest-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+#guest-list li span {
+    flex-grow: 1;
+}
+
+#guest-list li button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#guest-list li button:hover {
+    background-color: var(--highlight-color);
+}
+
+#guest-list li button.delete {
+    background-color: var(--accent-color);
+}
+
+#guest-list li button.delete:hover {
+    background-color: var(--highlight-color);
+}
+
+@media (max-width: 800px) {
+    main {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    #guest-list li {
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    #guest-list li {
+        padding: 6px;
+        margin-bottom: 6px;
+    }
+}
