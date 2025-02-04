@@ -44,7 +44,7 @@ function deleteGuest(index) {
 
 
 
-    document.addEventListener('DOMContentLoaded', () => {
+   /*  document.addEventListener('DOMContentLoaded', () => {
         const guestList = document.getElementById('guest-list');
     
         // Fetch guests from Firestore
@@ -95,4 +95,80 @@ function deleteGuest(index) {
                 });
             }
         }
+    }); */
+
+
+
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyA_twaPnI7WYm2uWBCDhvvWhOLqNI6psNE",
+    authDomain: "birthday-card-and-guest-list.firebaseapp.com",
+    databaseURL: "https://birthday-card-and-guest-list-default-rtdb.firebaseio.com",
+    projectId: "birthday-card-and-guest-list",
+    storageBucket: "birthday-card-and-guest-list.firebasestorage.app",
+    messagingSenderId: "968389124243",
+    appId: "1:968389124243:web:20153e019dec1d44b06d66",
+    measurementId: "G-3FZRZTWTSG"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const guestList = document.getElementById('guest-list');
+
+    // Fetch guests from Firestore
+    const querySnapshot = await getDocs(collection(db, 'guests'));
+    querySnapshot.forEach((doc) => {
+        const guest = doc.data();
+        const listItem = document.createElement('li');
+
+        const guestInfo = document.createElement('span');
+        guestInfo.textContent = `Name: ${guest.name}, Contact: ${guest.contact}`;
+        listItem.appendChild(guestInfo);
+
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', () => editGuest(doc.id, guest));
+        listItem.appendChild(editButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteGuest(doc.id));
+        listItem.appendChild(deleteButton);
+
+        guestList.appendChild(listItem);
     });
+
+    async function editGuest(id, guest) {
+        const newName = prompt('Enter new name:', guest.name);
+        const newContact = prompt('Enter new contact:', guest.contact);
+        if (newName && newContact) {
+            try {
+                await updateDoc(doc(db, 'guests', id), {
+                    name: newName,
+                    contact: newContact
+                });
+                location.reload(); // Reload the page to reflect changes
+            } catch (error) {
+                console.error('Error updating document: ', error);
+            }
+        }
+    }
+
+    async function deleteGuest(id) {
+        if (confirm('Are you sure you want to delete this guest?')) {
+            try {
+                await deleteDoc(doc(db, 'guests', id));
+                location.reload(); // Reload the page to reflect changes
+            } catch (error) {
+                console.error('Error deleting document: ', error);
+            }
+        }
+    }
+});
